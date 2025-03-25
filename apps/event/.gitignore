@@ -5,3 +5,4 @@ dist
 .idea
 .turbo
 .yarn
+prisma/migrations

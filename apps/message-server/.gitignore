@@ -11,3 +11,4 @@ firebase-adminsdk.json
 src/nodes-data.ts
 .turbo
 .rollup.cache
+prisma/migrations

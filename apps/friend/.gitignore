@@ -7,3 +7,4 @@ dist
 .idea
 firebase-adminsdk.json
 src/nodes-data.ts
+prisma/migrations
