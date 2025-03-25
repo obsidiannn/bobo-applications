@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/@prisma/db-event"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id           BigInt    @id @default(autoincrement()) @map("id") @db.UnsignedBigInt
+  type         Int?      @default(0)
+  data         String?   @db.LongText
+  status       Int?      @default(0)
+  failedReason String?   @map("failed_reason") @db.VarChar(255)
+  startAt      DateTime? @map("start_at")
+  endAt        DateTime? @map("end_at")
+  createdAt    DateTime? @default(now()) @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+  @@map("events")
+}

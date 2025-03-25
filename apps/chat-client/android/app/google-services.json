@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "760110300694",
+    "project_id": "bobochat-1c07d",
+    "storage_bucket": "bobochat-1c07d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+       "mobilesdk_app_id": "1:760110300694:android:c49e7092939f15005dbf37",
+        "android_client_info": {
+          "package_name": "ooo.bobobo.chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlLAn-j-M4zRsWVf7bNk5_qZ00Vcp32_M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

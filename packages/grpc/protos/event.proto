@@ -1,0 +1,27 @@
+syntax="proto3";
+
+package event_proto;
+import "google/protobuf/timestamp.proto";
+service EventProto {
+    rpc Broadcast(BroadcastRequest) returns (Event);
+}
+
+message BroadcastRequest {
+    EventType type = 1;
+    string data = 2;
+}
+
+enum EventType {
+    REGISTER = 0;
+    FRIEND_APPLY = 1;
+    GROUP_APPLY = 2;
+}
+
+message Event {
+    int64 id = 1;
+    EventType type = 2;
+    string data = 3;
+    google.protobuf.Timestamp createdAt = 4;
+    google.protobuf.Timestamp updatedAt = 5;
+    google.protobuf.Timestamp deletedAt = 6;
+}

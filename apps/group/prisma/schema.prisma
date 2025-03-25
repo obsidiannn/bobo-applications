@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/@prisma/db-group"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 群详情表
+model Group {
+  id          BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  creatorId   BigInt   @map("creator_id") @db.UnsignedBigInt //创建者  @db.UnsignedBigInt
+  ownerId     BigInt   @map("owner_id") @db.UnsignedBigInt //群主
+  name        String   @map("name") //群名称 为空默认生成
+  notice      String?  @map("notice") //群公告
+  desc        String?  @map("describe") //群描述
+  avatar      String?  @map("avatar") //群头像 为空默认生成
+  cover       String   @map("cover") //群封面
+  isEnc       Int      @default(0) @map("is_enc") // 是否加密 1-是 0-否 默认0
+  type        Int      @default(1) @map("type") // 群类型 1-普通 2-付费（时效） 消息不可发送，但是可以加入 3-私密 只能被邀请，不能被搜索
+  banType     Int      @default(1) @map("ban_type") // 禁言类型 1-不禁言 2-全员禁言 3-仅管理员可发言 4-仅群主可发言
+  searchType  Int      @default(1) @map("search_type") // 搜索类型 1-允许被搜索 2-不允许被搜索
+  status      Int      @default(1) @map("status") // 群状态 1-正常 2-禁用
+  total       Int      @default(1) @map("total") // 当前总人数
+  memberLimit Int      @default(100) @map("member_limit") //限制个数 默认100-待定也可根据配置
+  // 搜索权重值
+  weight      Int      @default(0) @map("weight") //搜索权重值
+  createdAt   DateTime @default(now()) @map("created_at") //创建时间
+  updatedAt   DateTime @updatedAt @map("updated_at") //更新时间
+  chatId      String   @map("chat_id")
+  tags        String   @map("tags")
+
+  @@map("groups")
+}
+
+// 群用户表
+model GroupMembers {
+  id               BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  groupId          BigInt    @map("gid") @db.UnsignedBigInt //群ID
+  uid              BigInt    @map("uid") @db.UnsignedBigInt //用户ID
+  encPri           String    @map("enc_pri") @db.VarChar(1024) //用户在该群的密钥 只有群主及管理具备
+  encKey           String    @map("enc_key") @db.VarChar(1024) //用户在该群的加密key
+  inviteUid        BigInt?   @map("invite_uid") //邀请者ID 没有则为主动加入
+  role             Int       @default(3) @map("role") //角色 1-群主 2-管理员 3-普通用户 默认普通用户
+  joinType         Int       @map("join_type") //加入方式 1-邀请 2-扫码 （枚举待定）
+  myAlias          String?   @map("my_alias") //在群里的昵称
+  aliasIdx         String?   @map("alias_idx") // 群昵称首字母
+  status           Int       @default(1) @map("status") //用户状态 0 pending 1-正常
+  banType          Int       @default(1) @map("ban_type") // 禁言类型  1-正常 2-禁言
+  adminAt          DateTime? @map("admin_at") //成为管理员的时间
+  packageExpiredAt DateTime? @map("package_expired_at") // 群订阅过期时间
+  createdAt        DateTime  @default(now()) @map("created_at") //创建时间
+  updatedAt        DateTime  @updatedAt @map("updated_at") //更新时间
+  remark           String?   @map("remark") // 申请备注
+
+  @@index([groupId], name: "group_member_idx_gid")
+  @@index([uid], name: "group_member_idx_uid")
+  @@map("group_members")
+}

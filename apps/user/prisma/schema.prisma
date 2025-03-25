@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/@prisma/db-user"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  userName    String?
+  nickName    String
+  avatar      String?
+  addr        String?
+  nickNameIdx String?
+  gender      Int?      @default(1)
+  sign        String?
+  pubKey      String
+  status      Int?      @default(1)
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
+  deletedAt   DateTime?
+
+  @@index([userName])
+  @@index([addr])
+  @@map("users")
+}
+
+model UserComplain {
+  id             BigInt  @id @default(autoincrement()) @db.UnsignedBigInt
+  complainUserId BigInt  @map("complain_user_id")
+  fromUId        BigInt  @map("from_user_id")
+  content        String? @map("content")
+  imageUrls      String? @map("image_urls") @db.Text
+  status         Int     @map("complain_status")
+
+  @@map("user_complain")
+}
+
+model UserFeedback {
+  id         BigInt  @id @default(autoincrement()) @db.UnsignedBigInt
+  fromUId    BigInt  @map("from_user_id")
+  content    String? @map("content")
+  imageUrls  String? @map("image_urls") @db.Text
+  categoryId BigInt     @map("category_id")
+  status     Int     @map("complain_status")
+
+  @@map("user_feedback")
+}

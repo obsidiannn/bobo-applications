@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/@prisma/db-friend"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model FriendUserExtendInfo {
+  id                    BigInt  @id @default(autoincrement()) @db.UnsignedBigInt
+  userId                BigInt? @db.UnsignedBigInt
+  lastFriendApplyId     BigInt? @default(0) @db.UnsignedBigInt
+  lastReadFriendApplyId BigInt? @default(0) @db.UnsignedBigInt
+
+  @@index([userId])
+  @@map("friend_user_extend_infos")
+}
+
+model Friend {
+  id        BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  hashKey   String?   @db.Char(32)
+  userId    BigInt?   @default(0) @db.UnsignedBigInt
+  friendId  BigInt?   @default(0) @db.UnsignedBigInt
+  remark    String?   @db.VarChar(128)
+  remarkIdx String?   @db.VarChar(32)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  relation  Int?
+  chatId    String?   @db.VarChar(128)
+
+  @@index([userId])
+  @@index([friendId])
+  @@index([hashKey])
+  @@map("friends")
+}
+
+model FriendApply {
+  id           BigInt    @id @default(autoincrement()) @db.UnsignedBigInt
+  hashKey      String?   @db.Char(32)
+  userId       BigInt?   @default(0) @db.UnsignedBigInt
+  friendId     BigInt?   @default(0) @db.UnsignedBigInt
+
+  status       Int?      @default(1)
+  remark       String?
+  rejectReason String?
+  createdAt    DateTime? @default(now())
+  expiredAt    DateTime?
+  updatedAt    DateTime? @updatedAt
+
+  @@index([userId])
+  @@index([friendId])
+  @@index([status])
+  @@index([hashKey])
+  @@map("friend_applies")
+}

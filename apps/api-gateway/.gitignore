@@ -1,0 +1,8 @@
+access.log
+.env
+caddy
+logs
+bin
+.DS_Store
+run.json
+config.json

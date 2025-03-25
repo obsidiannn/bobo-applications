@@ -1,0 +1,28 @@
+syntax="proto3";
+
+package bot_proto;
+import "google/protobuf/wrappers.proto";
+import "protos/chat.proto";
+service BotProto {
+    rpc CreateChat(CreateChatRequest) returns (chat_proto.Chat){};
+    rpc DropChat(DropChatRequest) returns (google.protobuf.BoolValue){};
+    rpc SendMessageByUserIds(SendMessageByUserIdsRequest) returns (google.protobuf.BoolValue){};
+    rpc SendMessageByBotIds(SendMessageByBotIdsRequest) returns (google.protobuf.BoolValue){};
+}
+message CreateChatRequest {
+    int64 botId = 1;
+    int64 userId = 2;
+}
+message DropChatRequest {
+    int64 botId = 1;
+    int64 userId = 2;
+}
+message SendMessageByUserIdsRequest{
+    int64 botId = 1;
+    string content = 2;
+    repeated int64 receiverUserIds = 3;
+}
+message SendMessageByBotIdsRequest{
+    string content = 1;
+    repeated int64 botIds = 2;
+}

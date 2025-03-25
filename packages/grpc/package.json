@@ -1,0 +1,51 @@
+{
+  "name": "@repo/grpc",
+  "version": "0.0.0",
+  "packageManager": "yarn@3.6.4",
+  "type": "module",
+  "exports": {
+    "./client": {
+      "import": "./dist/client.js",
+      "types": "./src/client.ts"
+    },
+    "./proto": {
+      "import": "./dist/proto.js",
+      "types": "./src/proto.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rimraf ./dist ./src/generated && mkdir -p ./src/generated/types",
+    "generate:types": "proto-ts-builder generate-types -d ./src/generated/types -o outputEncodeMethods=false,outputJsonMethods=false,outputClientImpl=false,esModuleInterop=true,addGrpcMetadata=true,lowerCaseServiceMethods=true,unrecognizedEnum=true,exportCommonSymbols=true,oneof=unions,importSuffix=.js,env=node,removeEnumPrefix=true,forceLong=bigint",
+    "index:types": "proto-ts-builder index -m ESM -d ./src/generated",
+    "generate:services": "proto-ts-builder generate-services -d ./src/generated -o outputServices=grpc-js,addGrpcMetadata=true,esModuleInterop=true,lowerCaseServiceMethods=true,unrecognizedEnum=true,exportCommonSymbols=true,oneof=unions,importSuffix=.js,env=node,removeEnumPrefix=true,forceLong=bigint",
+    "index:services": "proto-ts-builder index -m ESM -d ./src/generated",
+    "prebuild": "npm run clean && npm run generate:types && npm run index:types && npm run generate:services && npm run index:services",
+    "build": "npm run prebuild && rollup -c",
+    "reflection": "proto-ts-builder reflection"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "1.10.10",
+    "@grpc/proto-loader": "^0.7.13",
+    "google-gax": "^4.3.8",
+    "json-bigint": "^1.0.0",
+    "protobufjs": "^7.3.2",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.7",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/preset-env": "^7.24.7",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/json-bigint": "^1.0.4",
+    "@types/uuid": "^10.0.0",
+    "proto-ts-builder": "^1.0.3",
+    "rimraf": "^5.0.7",
+    "rollup": "^4.18.0",
+    "tslib": "^2.6.3",
+    "typescript": "^5.4.5"
+  }
+}

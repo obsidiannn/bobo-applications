@@ -1,0 +1,1 @@
+./bin/gateway run --config run.json

@@ -1,0 +1,28 @@
+syntax = "proto3";
+package group_proto;
+service GroupProto {
+  rpc FindGroupByIds(FindGroupsByIdsRequest) returns (GroupListResponse);
+}
+message FindGroupsByIdsRequest {
+    repeated uint64 ids = 1;
+}
+
+message GroupListResponse {
+    repeated Group items = 1;
+}
+
+message Group {
+    uint64 id = 1;
+    string name = 2;
+    string avatar = 3;
+    int32 memberLimit = 4;
+    int32 total = 5;
+    int64 ownerId = 6;
+    int64 creatorId = 7;
+    int64 createdAt = 8;
+    string notice = 9;
+    string desc = 10;
+    string cover = 11;
+    int32 type = 12;
+    int32 status = 13;
+}

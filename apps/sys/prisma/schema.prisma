@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/@prisma/db-system"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Node {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  region    String?
+  code      String?
+  type      String?
+  status    Int?
+  addr      String?
+  version   String?
+  remark    String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@index([addr])
+  @@index([status])
+  @@index([code])
+  @@index([type])
+  @@index([version])
+  @@map("nodes")
+}
+
+model AppVersion {
+  id          Int       @id @default(autoincrement())
+  versionCode Int?      @map("version_code")
+  versionName String?   @map("version_name")
+  description String?
+  forceUpdate Int?      @default(0) @map("force_update")
+  language    String?
+  platform    String?
+  downloadUrl String?   @map("download_url")
+  createdAt   DateTime? @default(now()) @map("created_at")
+  updatedAt   DateTime? @updatedAt @map("updated_at")
+
+  @@index([platform])
+  @@index([language])
+  @@map("app_versions")
+}
+
+model SysCategory {
+  id       Int     @id @default(autoincrement())
+  name     String  @map("category_name")
+  type     Int     @map("category_type") // IModel.ISystem.CategoryType
+  describe String  @map("category_describe")
+  sort     Int     @map("category_sort")
+  config   String? @map("category_config")
+
+  @@index([type])
+  @@map("sys_category")
+}

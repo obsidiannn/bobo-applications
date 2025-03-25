@@ -1,0 +1,43 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "include": [
+    "src/index.d.ts",
+    "src/*.ts",
+    "src/**/*",
+    "src/**/*.ts",
+    "src/**/**/**/*.ts"
+  ],
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "declaration": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Bundler",
+    "removeComments": true,
+    "types": [
+      "node"
+    ],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+}

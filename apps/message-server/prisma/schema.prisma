@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/@prisma/db-message"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+//会话表
+model Chat {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  businessId       BigInt?   @map("business_id") // 关联数据的id 
+  businessType     Int       @default(1) @map("business_type") // 1-单聊 2-群聊 3 官方会话
+  userIds          String?   @map("uids")
+  creatorUId       BigInt    @map("creator_uid") // 创建者 下面几个字段按道理是从群信息里面读取（个人意见）
+  status           Int       @map("status") //状态 1-正常 2-禁用
+  isEnc            Int       @default(0) @map("is_enc") // 是否加密 1-是 0-否 默认0
+  lastReadSequence Int       @map("last_read_sequence")
+  lastSequence     Int       @map("last_sequence")
+  lastTime         DateTime? @map("last_time")
+  createdAt        DateTime  @default(now()) @map("created_at") // 创建时间
+  updatedAt        DateTime  @updatedAt @map("updated_at") // 创建时间
+
+  @@map("chats")
+}
+
+// 用户会话表
+model ChatUser {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId         BigInt   @map("user_id") //用户ID
+  chatId         String   @map("chat_id") //会话ID
+  isTop          Int      @default(0) @map("is_top") //是否置顶 1-是 0-否 默认0
+  isMute         Int      @default(0) @map("is_mute") // 是否免打扰 1-是 0-否 默认0
+  isShow         Int      @default(1) @map("is_show") //是否拉黑 1-是 0-否 默认1
+  isHide         Int      @default(0) @map("is_hide") //是否隐藏 1-是 0-否 默认0
+  maxReadSeq     Int      @default(0) @map("max_read_seq") // 最大读取的消息序号，个人建议用用户的dbIdx表存储
+  businessType   Int      @map("business_type")
+  sourceFrom     Int      @map("source_from")
+  hashKey        String   @map("hash_key") // md5_16(userId+objUserId)
+  lastOnlineTime DateTime @map("last_online_time") // 最后一次在线时间
+  createdAt      DateTime @default(now()) @map("created_at") //创建时间
+  updatedAt      DateTime @updatedAt @map("updated_at") //更新时间
+  sortNo         Int      @default(0) @map("sort_no") // 排序字段
+
+  @@index([userId], name: "chat_user_idx_user_id")
+  @@index([chatId], name: "chat_user_idx_chat_id")
+  @@map("chat_user")
+}
+
+// 消息详情表
+model MessageDetail {
+  id          String   @id @map("_id") @db.ObjectId
+  chatId      String   @map("chat_id") //会话ID
+  fromUid     BigInt   @map("from_uid") //发送者用户ID
+  fromUidType Int      @default(1) @map("from_uid_type")
+  content     String   @map("content") //消息内容 加密字符串
+  status      Int      @default(1) @map("status") // 状态 1-正常 0-全员删除 如果物理删除 0状态不需要
+  type        Int      @map("type") // 1-普通消息 2-应用消息 等 （待定）
+  isEnc       Int      @default(0) @map("is_enc") // 是否加密 1-是 0-否 默认0
+  sequence    Int      @map("sequence") // 消息序号
+  receiveIds  String?  @map("receive_ids") // 指定接收的用户Id
+  extra       String?  @map("extra") //内容外的额外信息
+  action      String?  @map("action") //消息的操作类型，有些操作可以通过消息做响应的通知操作 我的预留 不需要可删
+  createdAt   DateTime @default(now()) @map("created_at") //创建时间
+  updatedAt   DateTime @updatedAt @map("updated_at") //更新时间
+
+  @@index([chatId], name: "message_detail_idx_chat_id")
+  @@map("message_detail")
+}
+
+// 用户消息表
+model UserMessage {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  uid       BigInt   @map("uid") //用户ID
+  msgId     String   @map("msg_id") //消息ID
+  isRead    Int      @default(0) @map("is_read") //是否已读 1-是 0-否 默认0
+  sequence  Int      @map("sequence") // 消息序号
+  chatId    String   @map("chat_id") // chat id
+  createdAt DateTime @default(now()) @map("created_at") //创建时间
+
+  @@index([uid], name: "user_message_idx_uid")
+  @@index([msgId], name: "user_message_idx_msg_id")
+  @@map("user_messages")
+}

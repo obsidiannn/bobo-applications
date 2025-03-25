@@ -1,0 +1,13 @@
+/node_modules
+/.vscode
+/.idea
+package-lock.json
+/dist/
+prisma/dev.db
+logs
+.env
+.idea
+firebase-adminsdk.json
+src/nodes-data.ts
+.turbo
+.rollup.cache

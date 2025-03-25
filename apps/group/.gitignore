@@ -1,0 +1,7 @@
+.turbo
+node_modules
+prisma/dev.db
+logs
+.env
+dist
+.idea

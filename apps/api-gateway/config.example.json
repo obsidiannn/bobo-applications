@@ -1,0 +1,61 @@
+{
+    "api": {
+        "port": [":5001"],
+        "routes": [
+            {
+                "paths": ["/sys/*"],
+                "upstreams": [
+                    "localhost:5002"
+                ]
+            },
+            {
+                "paths": ["/friends/*", "/friend-applies/*"],
+                "upstreams": [
+                    "localhost:5004"
+                ]
+            },
+            {
+                "paths": ["/auth/*", "/users/*"],
+                "upstreams": [
+                    "localhost:5003"
+                ]
+            },
+            {
+                "paths": ["/chats/*"],
+                "upstreams": [
+                    "localhost:5005"
+                ]
+            },
+            {
+                "paths": ["/groups/*"],
+                "upstreams": [
+                    "localhost:5006"
+                ]
+            },
+            {
+                "paths": ["/notify/*"],
+                "upstreams": [
+                    "localhost:5002"
+                ]
+            },
+            {
+                "paths": ["/discovery/*"],
+                "upstreams": [
+                    "localhost:5008"
+                ]
+            }
+        ]
+    },
+    "ws": {
+        "port": [":9500"],
+        "routes": [
+            {
+                "paths": ["/ws/*"],
+                "upstreams": [
+                    "localhost:5007",
+                    "localhost:5007"
+                ]
+            }
+        ]
+    }
+}

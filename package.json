@@ -1,0 +1,38 @@
+{
+  "name": "bobo-applications",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "dev:grpc": "turbo dev:grpc",
+    "dev:queue": "turbo dev:queue",
+    "prisma:migrate": "turbo prisma:migrate",
+    "prisma:generate": "turbo prisma:generate",
+    "prisma:seed": "turbo prisma:seed",
+    "ios": "turbo ios",
+    "start": "turbo start",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "babel-plugin-module-resolver": "^5.0.2",
+    "prettier": "^3.2.5",
+    "turbo": "^2.0.4",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "yarn@3.6.4",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "axios": "^1.7.2",
+    "bip39": "^3.1.0",
+    "ether": "^0.0.9",
+    "jsdom": "^24.1.0",
+    "user-agents": "^1.1.266"
+  }
+}

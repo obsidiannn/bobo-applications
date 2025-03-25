@@ -1,0 +1,17 @@
+services:
+  caddy:
+    image: caddy
+    ports:
+      - "9080:80"
+      - "9043:443"
+      - "9500:9500"
+      - "9043:443/udp"
+    volumes:
+      - ./caddy.json:/etc/caddy/caddy.json
+      - ./site:/srv
+      - ./caddy_data:/data
+      - ./caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

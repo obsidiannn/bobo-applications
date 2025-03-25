@@ -1,0 +1,27 @@
+{
+	"logging": {
+		"logs": {
+			"default": {
+				"level": "DEBUG"
+			},
+			"access_log": {
+				"level": "DEBUG",
+				"writer": {
+					"output": "file",
+					"filename": "./access.log",
+					"roll": true,
+					"roll_size_mb": 5,
+					"roll_local_time": true,
+					"roll_keep": 2,
+					"roll_keep_days": 7
+				}
+			}
+		}
+	},
+	"apps": {
+		"http": {
+			"servers": {
+			}
+		}
+	}
+}

@@ -1,0 +1,12 @@
+version: '3'
+services:
+  socketserver:
+    image: sockerserver:0.3
+    container_name: socketio-server
+    ports:
+      - '3000:3000'
+    environment:
+      REDIS_PORT: 6379
+      REDIS_HOST: "192.168.31.90"
+      REDIS_PASSWORD: "redis"
+      REDIS_DB: 2

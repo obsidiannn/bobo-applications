@@ -1,0 +1,31 @@
+syntax="proto3";
+
+package notify_proto;
+import "google/protobuf/wrappers.proto";
+service NotifyProto {
+    rpc PushMessage(PushRequest) returns (google.protobuf.BoolValue);
+    rpc SendSocket(SocketEventRequest) returns (google.protobuf.BoolValue);
+}
+message PushRequest {
+    repeated int64 userIds = 1;
+    repeated string topics = 2;
+    string title = 3;
+    string body = 4;
+    string data = 5;
+}
+
+enum SocketEventTypeEnum {
+    CHAT = 0;
+    SYSTEM = 1;
+}
+
+message SocketEventRequest {
+    int32 type = 1;
+    string channel = 2;
+    int32 sequence = 3;
+    int64 senderId = 4;
+    int64 dateMills = 5;
+    string metadata = 6;
+    repeated int64 recieverIds = 7;
+
+}

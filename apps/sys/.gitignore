@@ -1,0 +1,11 @@
+node_modules
+prisma/dev.db
+prisma/migrations
+logs
+.env
+dist
+.idea
+firebase-adminsdk.json
+src/nodes-data.ts
+prisma/dev.db-journal
+.turbo/turbo-build.log
