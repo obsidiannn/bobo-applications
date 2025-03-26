@@ -1,0 +1,22 @@
+{
+    "android": {
+        "versionCode": 1,
+        "versionName": "1.0",
+        "description": [
+            "1.更新说明",
+            "2.更新说明"
+        ],
+        "downloadUrl": "https://baidu.com",
+        "forceUpdate": false
+    },
+    "ios": {
+        "versionCode": 1,
+        "versionName": "1.0.0",
+        "description": [
+            "1.更新说明",
+            "2.更新说明"
+        ],
+        "downloadUrl": "https://baidu.com",
+        "forceUpdate": false
+    }
+}
